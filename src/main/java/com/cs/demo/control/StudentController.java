@@ -77,12 +77,15 @@ public class StudentController {
         active.setSocial(social);
         active.setSocialNumber(socialNumber);
         active.setIsPublic(isPublic);
-        int res =  activeService.saveActive(active);
+        activeService.saveActive(active);
         int activeId = activeService.getMaxId();
+
+        int res = 0;
 
         for (MultipartFile file : picture){
             String picture1 = uploadService.getPic(request,file);
-            activePictureMapper.savePicture(activeId,picture1);
+            System.out.println("picture = " + picture1);
+            res = activePictureMapper.savePicture(activeId,picture1);
         }
         return JsonResult.ok(res);
     }
