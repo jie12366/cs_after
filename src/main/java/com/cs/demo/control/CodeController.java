@@ -50,13 +50,7 @@ public class CodeController {
         if (jsonObject.getInt("code") != 0){
             return JsonResult.errorMsg("验证码发送失败");
         }
-        HttpSession session = request.getSession();
-        JSONObject json = new JSONObject();
-        SmsCode smsCode = new SmsCode(code,300);
-        json.put("verifyCode",code);
-        json.put("createTime",System.currentTimeMillis());
-        session.setAttribute("verifyCode",json);
-        session.setAttribute("smsCode",smsCode);
-        return JsonResult.ok();
+
+        return JsonResult.ok(code);
     }
 }

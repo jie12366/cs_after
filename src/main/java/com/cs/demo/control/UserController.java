@@ -35,25 +35,12 @@ public class UserController {
                            @ApiParam("用户名（邮箱）")@RequestParam("userName") String userName,
                            @ApiParam("密码")@RequestParam("password") String password,
                            @ApiParam("手机号")@RequestParam("phone") String phone,
-                           @ApiParam("验证码")@RequestParam("verifyCode") String verifyCode,
                            @ApiParam("用户角色")@RequestParam("role") String role)throws Exception{
         User user = new User();
         user.setUserName(userName);
         user.setPassword(password);
         user.setPhone(phone);
 
-        JSONObject code = (JSONObject) request.getSession().getAttribute("verifyCode");
-        if (StringUtils.isBlank(verifyCode)){
-            return JsonResult.errorMsg("验证码为空");
-        }
-        if (!StringUtils.equals(code.getString("verifyCode"),verifyCode)){
-            return JsonResult.errorMsg("验证码错误");
-        }
-        //验证码有效时间为五分钟
-        else if(System.currentTimeMillis() - code.getLong("createTime") > 1000 * 300){
-            request.removeAttribute("verifyCode");
-            return JsonResult.errorMsg("验证码过期");
-        }
         userService.saveUser(user);
         String role1 = "ROLE_STUDENT";
         String role2 = "ROLE_MARCHANT";
