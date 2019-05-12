@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<title>Login</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="../static/front/css/login.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="../static/front/js/jquery-3.4.0.js"></script>
+<script type="text/javascript" src="../static/front/js/jquery.easyui.min.js" ></script>
+<link rel="stylesheet" type="text/css" href="../static/front/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="../static/front/css/font-awesome.css">
+<script type="text/javascript" src="../static/front/js/bootstrap.js"></script>
+</head>
+<body>
+    <div class="container">
+	  <div id="login_form" class="form">
+	  	<div class="r-to-l">
+		  	<form class="register-form" method="post">
+			  <input type="text" placeholder="电子邮件" id="r_email"/>
+			  <input type="text" placeholder="手机号" id="r_phone" class="phone" name="phone">
+			  <input type="text" placeholder="验证码" id="r_check" class="p_r_check" name="smsCode" />
+				<button type="button" id="rb_check" class="check" >获取验证码</button>
+			  <input type="password" placeholder="密码" id="r_password" />
+			  <input type="password" placeholder="确认密码" id="r_re_password" />
+			  <div class="select">
+				<span class="placeholder" id="ide" >请选择身份</span>
+				<ul>
+					<li>学生</li>
+					<li>商家</li>
+				</ul>
+			  </div>
+			  <button id="create">创建账户</button>
+			  <p class="message">已经有了一个账户? <a href="#" id="r_login">立刻登录</a></p>
+			</form>
+		</div>
+		<div class="r-to-l l-to-p">
+			<form class="login-form">
+				<!-- <span class="user_icon"><i class="fa fa-user"></i></span> -->
+			  <input type="text" placeholder="用户名" id="user_name" class="user_name" />
+			  <input type="password" placeholder="密码" id="password"/>
+			  <button id="login">登　录</button>
+			  <p class="message">还没有账户? <a href="#" id="l_create">立刻创建</a></p>
+			  <p class="typeoflogin"><a href="#" id="l_p_login">手机验证码登录</a></p>
+			</form>
+		</div>
+		<div class="l-to-p">
+			<form class="p_login-form">
+		  		<input type="text" placeholder="手机号" id="p_user_name" class="phone" name="phone"/>
+		  		<input type="text" placeholder="验证码" id="p_check" class="p_r_check" name="smsCode" />
+				<button type="button" id="pb_check" class="check" >获取验证码</button>
+				<button id="p_login">登　录</button>
+				<p class="message">还没有账户? <a href="#" id="p_create" >立刻创建</a></p>
+				<p class="typeoflogin"><a href="#" id="p_l_login">账号密码登录</a></p>
+			</form>
+		</div>
+	  </div>
+</div>
+
+<script type="text/javascript" src="../static/front/js/login.js" ></script>
+
+</body>
+</html>

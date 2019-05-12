@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/4.3.0/css/bootstrap.min.css">
+    <style>
+        .form-pos{
+            width: 50%;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<form action="/authentication/form" method="post" class="form-pos">
+    <div class="form-group">
+        <label for="username">账号:</label>
+        <input type="text" class="form-control" id="username" placeholder="请输入邮箱" name="username"/>
+    </div>
+    <div class="form-group">
+        <label for="password">密码:</label>
+        <input type="password" class="form-control" id="password"  name=placeholder="请输入密码""password"/>
+    </div>
+    <div class="form-group">
+        <label for="imageCode">图形验证码:</label>
+        <input type="text" class="form-control" id="imageCode" name="imageCode"/>
+        <img src="/getCode">
+    </div>
+    记住我<input type="checkbox" id="remember-me" name="remember-me"/><br/>
+    <button type="submit" class="btn btn-primary">登录</button>
+</form>
+<!-- JavaScript files-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.0/js/bootstrap.min.js"></script>
+</body>
+</html>
