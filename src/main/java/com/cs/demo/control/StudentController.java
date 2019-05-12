@@ -8,6 +8,8 @@ import com.cs.demo.service.impl.*;
 import com.cs.demo.utils.JsonResult;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +48,8 @@ public class StudentController {
     @Autowired
     ActiveCollectServiceImpl activeCollectService;
 
+    private final Logger logger = LoggerFactory.getLogger(StudentController.class);
+
     @ApiOperation("将活动信息保存到数据库")
     @PostMapping("/active/save")
     public JsonResult saveActive(@ApiParam("标题") @RequestParam(value = "title",required = false)String title,
@@ -80,11 +84,15 @@ public class StudentController {
         activeService.saveActive(active);
         int activeId = activeService.getMaxId();
 
+        logger.info("id = ",activeId);
+
+        logger.info("pic",picture);
+
         int res = 0;
 
         for (MultipartFile file : picture){
             String picture1 = uploadService.getPic(request,file);
-            System.out.println("picture = " + picture1);
+            logger.info("picture = " + picture1);
             res = activePictureMapper.savePicture(activeId,picture1);
         }
         return JsonResult.ok(res);
