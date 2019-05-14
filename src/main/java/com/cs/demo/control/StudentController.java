@@ -6,6 +6,7 @@ import com.cs.demo.entity.UserLike;
 import com.cs.demo.mapper.ActivePictureMapper;
 import com.cs.demo.service.impl.*;
 import com.cs.demo.utils.JsonResult;
+import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -223,7 +224,8 @@ public class StudentController {
                                      @ApiParam("当前页数") @RequestParam("currentPage")int currentPage,
                                      @ApiParam("每页大小") @RequestParam("pageSize")int pageSize){
 
-        List<Active> activeList = activeCollectService.listActiveByUserNameByPage(userName,currentPage,pageSize);
+        PageHelper.startPage(currentPage,pageSize,"activeId desc");
+        List<Active> activeList = activeCollectService.listActiveByUserNameByPage(userName);
         return JsonResult.ok(activeList);
     }
 }

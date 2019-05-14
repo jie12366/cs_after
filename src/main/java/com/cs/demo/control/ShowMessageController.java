@@ -1,9 +1,10 @@
 package com.cs.demo.control;
 
 import com.cs.demo.entity.Active;
-import com.cs.demo.service.impl.ActiveServiceImpl;
+import com.cs.demo.service.ActiveService;
 import com.cs.demo.service.impl.RedisServiceImpl;
 import com.cs.demo.utils.JsonResult;
+import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +30,7 @@ public class ShowMessageController {
     RedisServiceImpl redisService;
 
     @Autowired
-    ActiveServiceImpl activeService;
+    ActiveService activeService;
 
     @ApiOperation("更新浏览量，+1")
     @PostMapping("/active/read")
@@ -46,10 +47,12 @@ public class ShowMessageController {
 
     @ApiOperation("分页取出数据")
     @GetMapping("/active/listByPage")
-    public JsonResult listActiveByPage(@ApiParam("当前页数") @RequestParam("currentPage")int currentPage,
-                                       @ApiParam("每页大小") @RequestParam("pageSize")int pageSize){
+    public JsonResult listActiveByPage(@ApiParam("当前页数") @RequestParam(value = "currentPage",defaultValue = "1")int currentPage,
+                                       @ApiParam("每页大小") @RequestParam(value = "pageSize",defaultValue = "5")int pageSize){
+
+        PageHelper.startPage(currentPage,pageSize,"activeId desc");
         if (currentPage > 0){
-            List<Active> activeList = activeService.listActiveByPage(currentPage,pageSize);
+            List<Active> activeList = activeService.listActiveByPage();
             return JsonResult.ok(activeList);
         }
         return null;

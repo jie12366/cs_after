@@ -55,10 +55,9 @@ public interface ActiveCollectMapper {
     /**
      * 返回我收藏的所有活动信息
      * @param userName
-     * @param map
      * @return
      */
     @Select("select a.* from active a join active_collect ac on a.activeId = ac.activeId " +
             "where ac.userName=#{userName}")
-    List<Active> listActiveByUserNameByPage(String userName, Map<String ,Object> map);
+    List<Active> listActiveByUserNameByPage(String userName);
 }

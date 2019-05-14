@@ -81,11 +81,10 @@ public interface ActiveMapper {
 
     /**
      * 分页获取信息
-     * @param map
      * @return
      */
     @Select("select * from active")
-    List<Active> listActiveByPage(Map<String ,Object> map);
+    List<Active> listActiveByPage();
 
     /**
      * 根据id删除活动信息

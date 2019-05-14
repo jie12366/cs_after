@@ -50,11 +50,8 @@ public class ActiveCollectServiceImpl implements ActiveCollectService {
     }
 
     @Override
-    public List<Active> listActiveByUserNameByPage(String userName,int currentPage, int pageSize) {
-        Map<String ,Object> map = new HashMap<>(5);
-        map.put("currentPage",currentPage);
-        map.put("pageSize",pageSize);
-        return activeCollectMapper.listActiveByUserNameByPage(userName,map);
+    public List<Active> listActiveByUserNameByPage(String userName) {
+        return activeCollectMapper.listActiveByUserNameByPage(userName);
     }
 
     @Override

@@ -2,7 +2,9 @@ package com.cs.demo.service.impl;
 
 import com.cs.demo.entity.Active;
 import com.cs.demo.mapper.ActiveMapper;
+import com.cs.demo.mapper.ActivePictureMapper;
 import com.cs.demo.service.ActiveService;
+import com.qiniu.common.QiniuException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,10 @@ public class ActiveServiceImpl implements ActiveService {
 
     @Autowired
     ActiveMapper activeMapper;
+    @Autowired
+    ActivePictureMapper pictureMapper;
+    @Autowired
+    UploadServiceImpl uploadService;
 
     @Override
     public int saveActive(Active active) {
@@ -53,15 +59,22 @@ public class ActiveServiceImpl implements ActiveService {
     }
 
     @Override
-    public List<Active> listActiveByPage(int currentPage, int pageSize) {
-        Map<String ,Object> map = new HashMap<>(5);
-        map.put("currentPage",currentPage);
-        map.put("pageSize",pageSize);
-        return activeMapper.listActiveByPage(map);
+    public List<Active> listActiveByPage() {
+        return activeMapper.listActiveByPage();
     }
 
     @Override
     public int deleteActive(int id) {
+        List<String > picList = pictureMapper.getPictureById(id);
+        for (String pic : picList){
+            try {
+                //从七牛云中把对应的文件删除
+                String key = pic.substring(24);
+                uploadService.deleteFile(key);
+            }catch (QiniuException e){
+                e.printStackTrace();
+            }
+        }
         return activeMapper.deleteActive(id);
     }
 }

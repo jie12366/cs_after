@@ -1,8 +1,6 @@
 package com.cs.demo.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.cs.demo.handler.MyPageInterceptor;
-import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
@@ -11,8 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-
-import java.util.Properties;
 
 /**
  * @author 熊义杰
@@ -72,15 +68,6 @@ public class MybatisTableConfig {
         sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath*:com/gitee/sunchenbin/mybatis/actable/mapping/*/*.xml"));
         sqlSessionFactoryBean.setTypeAliasesPackage("com.cs.demo.entity.*");
         return sqlSessionFactoryBean;
-    }
-
-    @Bean
-    public MyPageInterceptor myPageInterceptor(){
-        MyPageInterceptor interceptor = new MyPageInterceptor();
-        Properties properties = new Properties();
-        properties.setProperty("dbType","mysql");
-        interceptor.setProperties(properties);
-        return interceptor;
     }
 }
 

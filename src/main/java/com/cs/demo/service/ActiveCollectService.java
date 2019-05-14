@@ -48,7 +48,7 @@ public interface ActiveCollectService {
      * @param userName
      * @return
      */
-    List<Active> listActiveByUserNameByPage(String userName,int currentPage, int pageSize);
+    List<Active> listActiveByUserNameByPage(String userName);
 
     /**
      * 将redis中的数据更新到数据库

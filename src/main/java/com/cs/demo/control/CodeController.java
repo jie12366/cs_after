@@ -29,7 +29,7 @@ public class CodeController {
     private static final String KEY = "code";
 
     @ApiOperation("图形验证码")
-    @GetMapping("/getCode")
+    @GetMapping(value = "/getCode",produces = "image/jpeg")
     public void getCode(HttpServletRequest request, HttpServletResponse response) throws IOException{
 
         ImageCode imageCode = CreateImageCode.createImagecode();

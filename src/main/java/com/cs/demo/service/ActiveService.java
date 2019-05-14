@@ -59,7 +59,7 @@ public interface ActiveService {
      * @param pageSize
      * @return
      */
-    List<Active> listActiveByPage(int currentPage, int pageSize);
+    List<Active> listActiveByPage();
 
     /**
      * 根据id删除活动信息

@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * @author www.xyjz123.xyz
  * @description
@@ -28,7 +30,7 @@ public interface ActivePictureMapper {
      * @return
      */
     @Select("select picture from active_picture where activeId=#{activeId}")
-    String getPictureById(int activeId);
+    List<String> getPictureById(int activeId);
 
     /**
      * 删除活动id对应的图片
