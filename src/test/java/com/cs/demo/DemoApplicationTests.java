@@ -21,7 +21,6 @@ public class DemoApplicationTests {
 
     @Test
     public void contextLoads() throws QiniuException {
-        uploadService.deleteFile("Frcew0ZIFmI4qAyRttaxIKsnUFEN");
     }
 
 }
