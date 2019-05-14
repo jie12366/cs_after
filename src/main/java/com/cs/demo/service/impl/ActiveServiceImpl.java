@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author www.xyjz123.xyz
@@ -66,14 +64,19 @@ public class ActiveServiceImpl implements ActiveService {
     @Override
     public int deleteActive(int id) {
         List<String > picList = pictureMapper.getPictureById(id);
-        for (String pic : picList){
-            try {
+        //从数据库中将图片链接删除
+        pictureMapper.deletePictureById(id);
+        try {
+            for (String pic : picList){
                 //从七牛云中把对应的文件删除
                 String key = pic.substring(24);
                 uploadService.deleteFile(key);
-            }catch (QiniuException e){
-                e.printStackTrace();
             }
+            //删除active表中的附件
+            String annex = getActiveById(id).getAnnex().substring(24);
+            uploadService.deleteFile(annex);
+        }catch (QiniuException e){
+            e.printStackTrace();
         }
         return activeMapper.deleteActive(id);
     }

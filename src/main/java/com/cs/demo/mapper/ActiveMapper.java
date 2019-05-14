@@ -76,7 +76,7 @@ public interface ActiveMapper {
      * @param id
      * @return
      */
-    @Select("select * from active where id=#{id}")
+    @Select("select * from active where activeId=#{activeId}")
     Active getActiveById(int id);
 
     /**
