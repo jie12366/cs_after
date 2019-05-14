@@ -1,12 +1,14 @@
 package com.cs.demo.control;
 
 import com.cs.demo.entity.Active;
+import com.cs.demo.mapper.ActivePictureMapper;
 import com.cs.demo.service.ActiveService;
 import com.cs.demo.service.impl.RedisServiceImpl;
 import com.cs.demo.utils.JsonResult;
 import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author www.xyjz123.xyz
@@ -31,6 +36,9 @@ public class ShowMessageController {
 
     @Autowired
     ActiveService activeService;
+
+    @Autowired
+    ActivePictureMapper pictureMapper;
 
     @ApiOperation("更新浏览量，+1")
     @PostMapping("/active/read")
@@ -52,8 +60,21 @@ public class ShowMessageController {
 
         PageHelper.startPage(currentPage,pageSize,"activeId desc");
         if (currentPage > 0){
+            //活动信息的集合
             List<Active> activeList = activeService.listActiveByPage();
-            return JsonResult.ok(activeList);
+
+            //存放活动信息和活动图片的集合
+            List<JSONObject> objectList = new ArrayList<>();
+
+            for (Active active : activeList){
+                int id = active.getActiveId();
+                List<String > pictures = pictureMapper.getPictureById(id);
+                JSONObject object = new JSONObject();
+                object.put("active",active);
+                object.put("pictures",pictures);
+                objectList.add(object);
+            }
+            return JsonResult.ok(objectList);
         }
         return null;
     }

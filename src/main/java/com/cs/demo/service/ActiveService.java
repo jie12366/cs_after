@@ -1,6 +1,10 @@
 package com.cs.demo.service;
 
 import com.cs.demo.entity.Active;
+import com.cs.demo.mapper.ActiveMapper;
+import com.cs.demo.mapper.ActivePictureMapper;
+import com.cs.demo.service.impl.UploadServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,8 +59,6 @@ public interface ActiveService {
 
     /**
      * 分页获取信息
-     * @param currentPage
-     * @param pageSize
      * @return
      */
     List<Active> listActiveByPage();

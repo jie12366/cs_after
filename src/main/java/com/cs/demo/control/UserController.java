@@ -30,7 +30,7 @@ public class UserController {
 
     @ApiOperation("用户注册")
     @PostMapping("/register")
-    public JsonResult regi(HttpServletRequest request,
+    public JsonResult register(
                            @ApiParam("用户名（邮箱）")@RequestParam("userName") String userName,
                            @ApiParam("密码")@RequestParam("password") String password,
                            @ApiParam("手机号")@RequestParam("phone") String phone,
