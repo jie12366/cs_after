@@ -9,6 +9,7 @@ import com.cs.demo.utils.JsonResult;
 import com.github.pagehelper.PageHelper;
 import com.qiniu.common.QiniuException;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,6 @@ import java.util.List;
 @RequestMapping("/student")
 public class StudentController {
 
-    private List<String > pics = new ArrayList<>();
-
     @Autowired
     ActiveServiceImpl activeService;
 
@@ -52,36 +51,13 @@ public class StudentController {
     @Autowired
     ActiveCollectServiceImpl activeCollectService;
 
-    @ApiOperation("上传图片")
-    @ApiImplicitParam(name = "picture",dataType = "MultipartFile",allowMultiple = true)
-    @PostMapping("/picture/save")
-    public JsonResult savePicture(@ApiParam("图片") @RequestParam(value = "picture") MultipartFile[] picture,
-                                  HttpServletRequest request)throws IOException {
-        pics.clear();
-        for (MultipartFile file : picture){
-            String picture1 = uploadService.getPic(request,file);
-            pics.add(picture1);
-        }
-        return JsonResult.ok(pics);
-    }
-
-    @ApiOperation("删除图片")
-    @ApiImplicitParam(name = "picture",dataType = "MultipartFile")
-    @PostMapping("/picture/delete")
-    public JsonResult deletePicture(@ApiParam("图片") @RequestParam(value = "picture") MultipartFile picture,
-                                    HttpServletRequest request)throws IOException{
-        String picture1 = uploadService.getPic(request,picture);
-        pics.remove(picture1);
-        String key = picture1.substring(24);
-        uploadService.deleteFile(key);
-        return JsonResult.ok(pics);
-    }
-
     @ApiOperation("将活动信息保存到数据库")
-    @ApiImplicitParam(name = "annex",dataType = "MultipartFile")
+    @ApiImplicitParams({@ApiImplicitParam(name = "annex",dataType = "MultipartFile"),
+            @ApiImplicitParam(name = "picture",dataType = "MultipartFile",allowMultiple = true)})
     @PostMapping("/active/save")
     public JsonResult saveActive(@ApiParam("标题") @RequestParam(value = "title",required = false)String title,
                                  @ApiParam("内容") @RequestParam(value = "content",required = false)String content,
+                                 @ApiParam("图片（可多张）") @RequestParam(value = "picture") MultipartFile[] picture,
                                  @ApiParam("金额范围")@RequestParam(value = "money",required = false)String money,
                                  @ApiParam("分类")@RequestParam(value = "category",required = false)String category,
                                  @ApiParam("时间") @RequestParam(value = "activeTime",required = false)String activeTime,
@@ -113,13 +89,13 @@ public class StudentController {
 
         int res = 0;
 
-        for (String file : pics){
+        for (MultipartFile file : picture){
+            //图片上传到七牛云
+            String pic = uploadService.getPic(request,file);
             //将图片链接保存在数据库中
-            res = activePictureMapper.savePicture(activeId,file);
+            res = activePictureMapper.savePicture(activeId,pic);
         }
-        if (res == 1){
-            pics.clear();
-        }
+
         return JsonResult.ok(res);
     }
 
