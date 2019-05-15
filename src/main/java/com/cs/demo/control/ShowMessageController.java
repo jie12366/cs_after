@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author www.xyjz123.xyz
@@ -68,6 +66,7 @@ public class ShowMessageController {
 
             for (Active active : activeList){
                 int id = active.getActiveId();
+                //根据id获取出所有图片
                 List<String > pictures = pictureMapper.getPictureById(id);
                 JSONObject object = new JSONObject();
                 object.put("active",active);
