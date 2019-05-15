@@ -53,12 +53,15 @@ public class StudentController {
     ActiveCollectServiceImpl activeCollectService;
 
     @ApiOperation("上传图片")
-    @ApiImplicitParam(name = "picture",dataType = "MultipartFile")
+    @ApiImplicitParam(name = "picture",dataType = "MultipartFile",allowMultiple = true)
     @PostMapping("/picture/save")
-    public JsonResult savePicture(@ApiParam("图片") @RequestParam(value = "picture") MultipartFile picture,
+    public JsonResult savePicture(@ApiParam("图片") @RequestParam(value = "picture") MultipartFile[] picture,
                                   HttpServletRequest request)throws IOException {
-        String picture1 = uploadService.getPic(request,picture);
-        pics.add(picture1);
+        pics.clear();
+        for (MultipartFile file : picture){
+            String picture1 = uploadService.getPic(request,file);
+            pics.add(picture1);
+        }
         return JsonResult.ok(pics);
     }
 
