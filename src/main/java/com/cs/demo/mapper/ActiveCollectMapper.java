@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author www.xyjz123.xyz
@@ -24,7 +23,7 @@ public interface ActiveCollectMapper {
      * @param activeId
      * @return
      */
-    @Insert("insert into active_collect values(#{userName},#{activeId})")
+    @Insert("insert into active_collect(userName,activeId) values(#{userName},#{activeId})")
     int saveActiveCollect(String userName,int activeId);
 
     /**
@@ -34,6 +33,15 @@ public interface ActiveCollectMapper {
      */
     @Delete("delete from active_collect where activeId=#{activeId}")
     int deleteActiveCollect(int activeId);
+
+    /**
+     * 删除一条收藏信息
+     * @param userName 用户名
+     * @param activeId 活动id
+     * @return
+     */
+    @Delete("delete from active_collect where userName=#{userName} and activeId=#{activeId}")
+    int deleteOne(String userName,int activeId);
 
     /**
      * 判断该收藏信息是否存在
@@ -53,6 +61,14 @@ public interface ActiveCollectMapper {
     List<ActiveCollect> listActiveCollect(int activeId);
 
     /**
+     * 获取活动id的数量
+     * @param activeId
+     * @return
+     */
+    @Select("select count(*) from active_collect where activeId=#{activeId}")
+    int countActiveCollect(int activeId);
+
+    /**
      * 返回我收藏的所有活动信息
      * @param userName
      * @return
@@ -60,4 +76,13 @@ public interface ActiveCollectMapper {
     @Select("select a.* from active a join active_collect ac on a.activeId = ac.activeId " +
             "where ac.userName=#{userName}")
     List<Active> listActiveByUserNameByPage(String userName);
+
+    /**
+     * 判断收藏是否已经存在
+     * @param userName 用户名
+     * @param activeId 活动id
+     * @return
+     */
+    @Select("select * from active_collect where userName=#{userName} and activeId=#{activeId}")
+    ActiveCollect getByUserById(String userName,int activeId);
 }

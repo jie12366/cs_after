@@ -1,13 +1,13 @@
 package com.cs.demo.control;
 
 import com.cs.demo.entity.Active;
+import com.cs.demo.entity.ActiveCollect;
 import com.cs.demo.entity.StudentMessage;
 import com.cs.demo.entity.UserLike;
 import com.cs.demo.mapper.ActivePictureMapper;
 import com.cs.demo.service.impl.*;
 import com.cs.demo.utils.JsonResult;
 import com.github.pagehelper.PageHelper;
-import com.qiniu.common.QiniuException;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -200,30 +200,42 @@ public class StudentController {
     @ApiOperation("收藏活动,返回收藏数")
     @PostMapping("/active/collect")
     public JsonResult collectActive(@ApiParam("用户名")@RequestParam("userName")String userName,
-                                  @ApiParam("活动id")@RequestParam("activeId")String activeId){
+                                  @ApiParam("活动id")@RequestParam("activeId")int activeId){
 
-        redisService.saveKey2(userName,activeId);
-        int size =  redisService.getCollectFromRedis().size();
-        return JsonResult.ok(size);
+        if (activeCollectService.getByUserById(userName,activeId) == null){
+            //如果没有收藏过，就存入redis
+            redisService.saveKey2(userName,String.valueOf(activeId));
+        }else {
+            return JsonResult.errorMsg("此活动已收藏过了");
+        }
+
+        return JsonResult.ok(activeCollectService.getSize(activeId));
     }
 
     @ApiOperation("取消收藏,返回收藏数")
     @PostMapping("/active/unCollect")
     public JsonResult unCollectActive(@ApiParam("用户名")@RequestParam("userName")String userName,
-                                      @ApiParam("活动id")@RequestParam("activeId")String activeId){
+                                      @ApiParam("活动id")@RequestParam("activeId")int activeId){
 
-        redisService.deleteKey2(userName,activeId);
-        int size =  redisService.getCollectFromRedis().size();
-        return JsonResult.ok(size);
+        //从redis中删除
+        redisService.deleteKey2(userName,String.valueOf(activeId));
+        //从数据库中删除
+        activeCollectService.deleteOne(userName, activeId);
+
+        return JsonResult.ok(activeCollectService.getSize(activeId));
     }
 
     @ApiOperation("获取我的收藏")
     @PostMapping("/active/listByUserName")
     public JsonResult listByUserName(@ApiParam("用户名")@RequestParam("userName")String userName,
-                                     @ApiParam("当前页数") @RequestParam("currentPage")int currentPage,
-                                     @ApiParam("每页大小") @RequestParam("pageSize")int pageSize){
+                                     @ApiParam("当前页数") @RequestParam(value = "currentPage",defaultValue = "1")int currentPage,
+                                     @ApiParam("每页大小") @RequestParam(value = "pageSize",defaultValue = "5")int pageSize){
 
-        PageHelper.startPage(currentPage,pageSize,"activeId desc");
+        //从redis中读取最新数据到数据库中，保证数据最新
+        activeCollectService.transCollectFromRedis();
+        //降序分页查询（使用了分页拦截器）保持最新的数据在前面
+        PageHelper.startPage(currentPage,pageSize,"id desc");
+
         List<Active> activeList = activeCollectService.listActiveByUserNameByPage(userName);
         return JsonResult.ok(activeList);
     }

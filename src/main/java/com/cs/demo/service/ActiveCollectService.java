@@ -29,6 +29,14 @@ public interface ActiveCollectService {
     int deleteActiveCollect(int activeId);
 
     /**
+     * 删除一条收藏信息
+     * @param userName 用户名
+     * @param activeId 活动id
+     * @return
+     */
+    int deleteOne(String userName,int activeId);
+
+    /**
      * 判断该收藏信息是否存在
      * @param userName 用户名
      * @param activeId 活动id
@@ -44,11 +52,33 @@ public interface ActiveCollectService {
     List<ActiveCollect> listActiveCollect(int activeId);
 
     /**
+     * 获取活动id的数量
+     * @param activeId
+     * @return
+     */
+    int countActiveCollect(int activeId);
+
+    /**
      * 返回我收藏的所有活动信息
      * @param userName
      * @return
      */
     List<Active> listActiveByUserNameByPage(String userName);
+
+    /**
+     * 判断收藏是否已经存在
+     * @param userName 用户名
+     * @param activeId 活动id
+     * @return
+     */
+    ActiveCollect getByUserById(String userName,int activeId);
+
+    /**
+     * 获取活动收藏的次数
+     * @param activeId
+     * @return
+     */
+    int getSize(int activeId);
 
     /**
      * 将redis中的数据更新到数据库

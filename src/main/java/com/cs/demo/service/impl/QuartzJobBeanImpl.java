@@ -1,5 +1,7 @@
 package com.cs.demo.service.impl;
 
+import com.cs.demo.service.ActiveCollectService;
+import com.cs.demo.service.UserLikeService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,10 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
  */
 public class QuartzJobBeanImpl extends QuartzJobBean {
     @Autowired
-    UserLikeServiceImpl userLikeService;
+    UserLikeService userLikeService;
 
     @Autowired
-    ActiveCollectServiceImpl activeCollectService;
+    ActiveCollectService activeCollectService;
 
     @Autowired
     RedisServiceImpl redisService;

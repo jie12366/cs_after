@@ -110,7 +110,9 @@ public class RedisServiceImpl implements RedisService {
             String[] keys = RedisKeyUtils.getStrings(cursor.next());
             String userName = keys[0];
             String activeId = keys[1];
-            ActiveCollect activeCollect = new ActiveCollect(userName,Integer.parseInt(activeId));
+            ActiveCollect activeCollect = new ActiveCollect();
+            activeCollect.setUserName(userName);
+            activeCollect.setActiveId(Integer.parseInt(activeId));
             list.add(activeCollect);
         }
         return list;

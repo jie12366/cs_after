@@ -28,8 +28,8 @@ public class QuartzConfig {
     @Bean
     public Trigger quartzTrigger(){
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-        //设置5分钟执行一次
-        .withIntervalInMinutes(5)
+        //设置2小时执行一次
+        .withIntervalInHours(2)
         .repeatForever();
 
         return TriggerBuilder.newTrigger()

@@ -40,6 +40,11 @@ public class ActiveCollectServiceImpl implements ActiveCollectService {
     }
 
     @Override
+    public int deleteOne(String userName, int activeId) {
+        return activeCollectMapper.deleteOne(userName, activeId);
+    }
+
+    @Override
     public ActiveCollect getById(String userName, int activeId) {
         return activeCollectMapper.getById(userName, activeId);
     }
@@ -50,19 +55,41 @@ public class ActiveCollectServiceImpl implements ActiveCollectService {
     }
 
     @Override
+    public int countActiveCollect(int activeId) {
+        return activeCollectMapper.countActiveCollect(activeId);
+    }
+
+    @Override
     public List<Active> listActiveByUserNameByPage(String userName) {
         return activeCollectMapper.listActiveByUserNameByPage(userName);
+    }
+
+    @Override
+    public ActiveCollect getByUserById(String userName, int activeId) {
+        return activeCollectMapper.getByUserById(userName,activeId);
+    }
+
+    @Override
+    public int getSize(int activeId) {
+        int size = 0;
+        List<ActiveCollect> activeCollectList = redisService.getCollectFromRedis();
+        for (ActiveCollect activeCollect:activeCollectList){
+            if (activeCollect.getActiveId() == activeId){
+                size ++;
+            }
+        }
+        size += countActiveCollect(activeId);
+        return size;
     }
 
     @Override
     public void transCollectFromRedis() {
         List<ActiveCollect> activeCollects = redisService.getCollectFromRedis();
         for (ActiveCollect activeCollect : activeCollects){
-            ActiveCollect activeCollect1= getById(activeCollect.getUserName(),activeCollect.getActiveId());
-            if (activeCollect1 == null){
-                //数据库没有记录，存入数据库
-                saveActiveCollect(activeCollect);
-            }
+            //数据库没有记录，存入数据库
+            saveActiveCollect(activeCollect);
+            //从redis缓存中删除
+            redisService.deleteKey2(activeCollect.getUserName(),String.valueOf(activeCollect.getActiveId()));
         }
     }
 }

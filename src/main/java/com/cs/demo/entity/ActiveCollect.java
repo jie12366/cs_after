@@ -19,6 +19,12 @@ import lombok.NoArgsConstructor;
 public class ActiveCollect {
 
     /**
+     * 主键，自增id
+     */
+    @Column(name = "id",type = MySqlTypeConstant.INT,length = 5,isKey = true,isAutoIncrement = true)
+    private String id;
+
+    /**
      * 用户名
      */
     @Column(name = "userName",type = MySqlTypeConstant.VARCHAR,length = 50)
