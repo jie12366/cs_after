@@ -75,7 +75,7 @@ public class ValidationCodeFilter extends OncePerRequestFilter {
         if (!StringUtils.equalsIgnoreCase(imageCode, code.getCode())) {
             throw new ValidateCodeException("验证码不匹配");
         }
-
+        request.getServletContext().removeAttribute(KEY);
     }
 
     private void validate2(HttpServletRequest request) {
