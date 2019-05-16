@@ -1,14 +1,13 @@
 package com.cs.demo.control;
 
 import com.cs.demo.entity.ImageCode;
-import com.cs.demo.service.RedisService;
+import com.cs.demo.entity.SmsCode;
 import com.cs.demo.utils.CreateImageCode;
 import com.cs.demo.utils.GetString;
 import com.cs.demo.utils.JsonResult;
 import com.zhenzi.sms.ZhenziSmsClient;
 import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,9 +26,6 @@ import java.io.IOException;
 public class CodeController {
 
     private static final String KEY = "code";
-
-    @Autowired
-    RedisService redisService;
 
     @ApiOperation("图形验证码")
     @GetMapping(value = "/getCode",produces = "image/jpeg")
@@ -53,7 +49,10 @@ public class CodeController {
         if (jsonObject.getInt("code") != 0){
             return JsonResult.errorMsg("验证码发送失败");
         }
+        //设置验证码5分钟后过期
+        SmsCode smsCode = new SmsCode(code,3000);
 
+        request.getServletContext().setAttribute("smsCode",smsCode);
         return JsonResult.ok(code);
     }
 }
