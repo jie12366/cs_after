@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.web.cors.CorsUtils;
 
 import javax.sql.DataSource;
 
@@ -87,12 +88,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(detailsService)
                 .and()
                 .authorizeRequests()
+                    //处理跨域请求中的preflight请求
+                    .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     .antMatchers("/authentication/require","/user/**",
                         securityProperties.getProperties().getLoginPage()
                     ,"/getCode","/sendMsg","/active/**").permitAll()
                     .antMatchers("/student/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
+                //开启跨域
+                .cors()
+                .and()
                 .csrf().disable()
                 .apply(smsAuthenticationConfig);
     }

@@ -58,7 +58,11 @@ public class JsonResult {
     }
 
     public static JsonResult errorMsg(String msg) {
-        return new JsonResult(msg);
+        return new JsonResult(msg,500);
+    }
+
+    public static JsonResult errorLogin(String msg) {
+        return new JsonResult(msg,401);
     }
 
     public static JsonResult errorMap(Object data) {
@@ -73,8 +77,8 @@ public class JsonResult {
         return new JsonResult(null);
     }
 
-    public JsonResult(String msg) {
-        this.status = 500;
+    public JsonResult(String msg,Integer status) {
+        this.status = status;
         this.msg = msg;
         this.data = null;
     }

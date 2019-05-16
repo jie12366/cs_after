@@ -1,6 +1,7 @@
 package com.cs.demo.control;
 
 import com.cs.demo.proeperties.SecurityProperties;
+import com.cs.demo.utils.JsonResult;
 import com.cs.demo.utils.SimpleResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ public class BrowserController {
 
     @RequestMapping("/authentication/require")
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
-    public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public JsonResult requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         SavedRequest savedRequest = cache.getRequest(request,response);
 
@@ -44,10 +45,10 @@ public class BrowserController {
             log.info("引发跳转的请求是：" + targetUrl);
             String ends = ".html";
             if(StringUtils.endsWithIgnoreCase(targetUrl,ends)){
-                response.sendRedirect(securityProperties.getProperties().getLoginPage());
+                return JsonResult.errorLogin("请引导用户到登录页");
             }
         }
-        return new SimpleResponse("访问的页面需要身份认证,请引导用户到登录页");
+        return JsonResult.errorLogin("请引导用户到登录页");
     }
 
     @GetMapping("/error")
