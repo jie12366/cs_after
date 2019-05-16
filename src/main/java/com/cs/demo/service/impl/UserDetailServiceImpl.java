@@ -30,7 +30,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        System.out.println("phone = " + s);
         com.cs.demo.entity.User user = userService.getIdByName(s);
         if (user == null){
             user = userService.getUserByPhone(s);

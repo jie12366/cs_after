@@ -1,13 +1,14 @@
 package com.cs.demo.control;
 
 import com.cs.demo.entity.ImageCode;
-import com.cs.demo.entity.SmsCode;
+import com.cs.demo.service.RedisService;
 import com.cs.demo.utils.CreateImageCode;
 import com.cs.demo.utils.GetString;
 import com.cs.demo.utils.JsonResult;
 import com.zhenzi.sms.ZhenziSmsClient;
 import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -28,13 +28,16 @@ public class CodeController {
 
     private static final String KEY = "code";
 
+    @Autowired
+    RedisService redisService;
+
     @ApiOperation("图形验证码")
     @GetMapping(value = "/getCode",produces = "image/jpeg")
-    public void getCode(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    public void getCode(HttpServletRequest request,HttpServletResponse response) throws IOException{
 
         ImageCode imageCode = CreateImageCode.createImagecode();
-        HttpSession session = request.getSession();
-        session.setAttribute(KEY,imageCode);
+        request.getServletContext().setAttribute(KEY,imageCode);
+
         ImageIO.write(imageCode.getImage(),"JPEG",response.getOutputStream());
     }
 

@@ -22,6 +22,13 @@ public interface RedisService {
     boolean set(final String key, final String value);
 
     /**
+     *
+     * @param key
+     * @param value
+     */
+    void setCode(String key,Object value);
+
+    /**
      * 通过键从redis获取值
      * @param key 键
      * @return 字符串

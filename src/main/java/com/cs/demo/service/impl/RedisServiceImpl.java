@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +26,8 @@ import java.util.Map;
 @Service
 public class RedisServiceImpl implements RedisService {
 
-    @Autowired
-    private RedisTemplate<String, ?> redisTemplate;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public boolean set(final String key, final String value) throws DataAccessException{
@@ -35,6 +36,11 @@ public class RedisServiceImpl implements RedisService {
             connection.set(serializer.serialize(key), serializer.serialize(value));
             return true;
         });
+    }
+
+    @Override
+    public void setCode(String key,Object value){
+        redisTemplate.opsForValue().set(key,value);
     }
 
     @Override

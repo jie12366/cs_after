@@ -1,9 +1,11 @@
 package com.cs.demo.handler;
 
+import com.cs.demo.utils.JsonResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -42,8 +44,6 @@ public class SelfDefineAuthenticationSuccessHandler implements AuthenticationSuc
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         logger.info("登陆成功了");
         response.setContentType("application/json;charset=utf-8");
-        String value= objectMapper.writeValueAsString(authentication.getPrincipal() + "登录成功");
-        logger.info(value);
-        response.getWriter().write(value);
+        response.getWriter().write("登录成功");
     }
 }

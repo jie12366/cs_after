@@ -217,6 +217,7 @@
             <artifactId>zhenzisms</artifactId>
             <version>1.0.2</version>
         </dependency>
+
         <!--quartz定时任务-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

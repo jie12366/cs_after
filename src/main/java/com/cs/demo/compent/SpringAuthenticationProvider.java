@@ -55,9 +55,6 @@ public class SpringAuthenticationProvider implements AuthenticationProvider{
             session.removeAttribute(KEY);
             throw  new UsernameNotFoundException("验证码过期");
         }
-        if (!org.apache.commons.lang3.StringUtils.equalsIgnoreCase(code.getCode(),codeRequest)){
-            throw  new UsernameNotFoundException("验证码错误");
-        }
     }
 
     @Override

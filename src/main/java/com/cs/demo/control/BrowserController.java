@@ -2,7 +2,6 @@ package com.cs.demo.control;
 
 import com.cs.demo.proeperties.SecurityProperties;
 import com.cs.demo.utils.JsonResult;
-import com.cs.demo.utils.SimpleResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
