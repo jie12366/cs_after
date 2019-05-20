@@ -33,12 +33,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
         System.out.println("phone = " + s);
         System.out.println(user);
         List<Role> roleList = userService.getRolesByUserName(user.getUserName());
-        UserDetails userDetails = null;
         List<GrantedAuthority> roles = new ArrayList<>();
         for (Role role:roleList){
             roles.add(new SimpleGrantedAuthority(role.getName()));
         }
-        userDetails = new User(user.getUserName(),user.getPassword(),roles);
-        return userDetails;
+
+        return new User(user.getUserName(),user.getPassword(),roles);
     }
 }

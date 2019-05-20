@@ -32,6 +32,7 @@ public class SpringAuthenticationProvider implements AuthenticationProvider{
         Assert.isInstanceOf(UsernamePasswordAuthenticationToken.class,authentication,"非验证类型");
         String userName = authentication.getPrincipal().toString();
         String password = authentication.getCredentials().toString();
+
         UserDetails userDetails = userDetailService.loadUserByUsername(userName);
         //如果密码不相等，抛出错误
         if (!password.equals(userDetails.getPassword())){

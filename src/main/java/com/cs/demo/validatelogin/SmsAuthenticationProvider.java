@@ -21,8 +21,6 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
 
         SmsAuthenticationToken authenticationToken = (SmsAuthenticationToken) authentication;
 
-        System.out.println("phone = " +  authenticationToken.getPrincipal());
-
         UserDetails userDetails = userDetailService.loadUserByUsername((String) authenticationToken.getPrincipal());
 
         if (userDetails == null){
