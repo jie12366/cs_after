@@ -1,7 +1,7 @@
 package com.cs.demo.compent;
 
 import com.cs.demo.entity.ImageCode;
-import com.cs.demo.service.UserDetailServiceImpl;
+import com.cs.demo.service.impl.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

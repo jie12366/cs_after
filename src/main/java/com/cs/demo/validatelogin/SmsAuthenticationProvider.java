@@ -1,6 +1,6 @@
 package com.cs.demo.validatelogin;
 
-import com.cs.demo.service.UserDetailServiceImpl;
+import com.cs.demo.service.impl.UserDetailServiceImpl;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -18,7 +18,10 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+
         SmsAuthenticationToken authenticationToken = (SmsAuthenticationToken) authentication;
+
+        System.out.println("phone = " +  authenticationToken.getPrincipal());
 
         UserDetails userDetails = userDetailService.loadUserByUsername((String) authenticationToken.getPrincipal());
 
@@ -34,8 +37,8 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public boolean supports(Class<?> aClass) {
-        return SmsAuthenticationToken.class.isAssignableFrom(aClass);
+    public boolean supports(Class<?> authentication) {
+        return SmsAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
     public void setUserDetailService(UserDetailServiceImpl userDetailService) {

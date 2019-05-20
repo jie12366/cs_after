@@ -4,7 +4,7 @@ import com.cs.demo.filter.ValidationCodeFilter;
 import com.cs.demo.handler.SelfDefineAuthenticationFailureHandler;
 import com.cs.demo.handler.SelfDefineAuthenticationSuccessHandler;
 import com.cs.demo.proeperties.SecurityProperties;
-import com.cs.demo.service.UserDetailServiceImpl;
+import com.cs.demo.service.impl.UserDetailServiceImpl;
 import com.cs.demo.validatelogin.SmsAuthenticationConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -54,9 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     DataSource dataSource;
 
     @Autowired
-    UserDetailsService detailsService;
-
-    @Autowired
     SmsAuthenticationConfig smsAuthenticationConfig;
 
     @Bean
@@ -85,7 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe()
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(securityProperties.getProperties().getRememberMeSeconds())
-                .userDetailsService(detailsService)
+                .userDetailsService(userDetailService)
                 .and()
                 .authorizeRequests()
                     //处理跨域请求中的preflight请求

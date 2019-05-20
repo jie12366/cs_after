@@ -1,16 +1,13 @@
 package com.cs.demo.filter;
 
 import com.cs.demo.entity.ImageCode;
-import com.cs.demo.entity.SmsCode;
 import com.cs.demo.exception.ValidateCodeException;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -75,20 +72,6 @@ public class ValidationCodeFilter extends OncePerRequestFilter {
 
     private void validate2(HttpServletRequest request) {
 
-        SmsCode code = (SmsCode) request.getServletContext().getAttribute("smsCode");
-        if (code == null){
-            throw new ValidateCodeException("请发送验证码");
-        }
-        String smsCode = request.getParameter("smsCode");
-        if (StringUtils.isBlank(smsCode)) {
-            throw new ValidateCodeException("验证码为空");
-        }
-        if (code.isExpired()) {
-            throw new ValidateCodeException("验证码过期");
-        }
-        if (!StringUtils.equalsIgnoreCase(smsCode, code.getCode())) {
-            throw new ValidateCodeException("验证码不匹配");
-        }
-        request.getServletContext().removeAttribute("smsCode");
+
     }
 }

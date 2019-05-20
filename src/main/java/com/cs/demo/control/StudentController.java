@@ -1,7 +1,6 @@
 package com.cs.demo.control;
 
 import com.cs.demo.entity.Active;
-import com.cs.demo.entity.ActiveCollect;
 import com.cs.demo.entity.StudentMessage;
 import com.cs.demo.entity.UserLike;
 import com.cs.demo.mapper.ActivePictureMapper;
@@ -21,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

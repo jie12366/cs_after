@@ -1,13 +1,10 @@
-package com.cs.demo.service;
+package com.cs.demo.service.impl;
 
-import com.cs.demo.service.impl.UserServiceImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cs.demo.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import com.cs.demo.entity.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +23,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
     UserServiceImpl userService;
-    private final Logger logger = LoggerFactory.getLogger(UserDetailServiceImpl.class);
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -34,13 +30,15 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (user == null){
             user = userService.getUserByPhone(s);
         }
-        List<Role> roleList = userService.getRolesByUserName(s);
+        System.out.println("phone = " + s);
+        System.out.println(user);
+        List<Role> roleList = userService.getRolesByUserName(user.getUserName());
         UserDetails userDetails = null;
         List<GrantedAuthority> roles = new ArrayList<>();
         for (Role role:roleList){
             roles.add(new SimpleGrantedAuthority(role.getName()));
         }
-        userDetails = new User(s,user.getPassword(),roles);
+        userDetails = new User(user.getUserName(),user.getPassword(),roles);
         return userDetails;
     }
 }

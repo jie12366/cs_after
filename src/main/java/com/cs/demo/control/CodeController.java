@@ -53,6 +53,7 @@ public class CodeController {
         SmsCode smsCode = new SmsCode(code,3000);
 
         request.getServletContext().setAttribute("smsCode",smsCode);
-        return JsonResult.ok(code);
+
+        return JsonResult.ok(request.getServletContext().getAttribute("smsCode"));
     }
 }
