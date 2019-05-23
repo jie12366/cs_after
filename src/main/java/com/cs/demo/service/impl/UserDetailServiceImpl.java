@@ -30,8 +30,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (user == null){
             user = userService.getUserByPhone(s);
         }
-        System.out.println("phone = " + s);
-        System.out.println(user);
+
         List<Role> roleList = userService.getRolesByUserName(user.getUserName());
         List<GrantedAuthority> roles = new ArrayList<>();
         for (Role role:roleList){

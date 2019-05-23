@@ -1,10 +1,10 @@
 package com.cs.demo.mapper;
 
+import com.cs.demo.cache.RedisCache;
 import com.cs.demo.entity.Active;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author www.xyjz123.xyz
@@ -12,6 +12,7 @@ import java.util.Map;
  * @date 2019/4/29 9:10
  */
 @Mapper
+@CacheNamespace(implementation = RedisCache.class)
 public interface ActiveMapper {
 
     /**
@@ -31,6 +32,7 @@ public interface ActiveMapper {
      * @param createTime
      * @return
      */
+    @Options(useCache = true)
     @Insert("insert into active(title,content,money,category,activeTime,address,annex," +
             "name,phone,social,socialNumber,isPublic,createTime) " +
             "values(#{title},#{content},#{money},#{category},#{activeTime},#{address}," +

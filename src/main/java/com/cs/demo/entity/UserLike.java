@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @author www.xyjz123.xyz
  * @description
@@ -16,8 +18,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user_like")
-public class UserLike {
+public class UserLike implements Serializable {
 
+    private static final long serialVersionUID = -8964562661007699408L;
     /**
      * 主键，用户id
      */

@@ -31,9 +31,10 @@ public class ActiveServiceImpl implements ActiveService {
     public int saveActive(Active active) {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        return activeMapper.saveActive(active.getTitle(), active.getContent(), active.getMoney(), active.getCategory(),
+        int res = activeMapper.saveActive(active.getTitle(), active.getContent(), active.getMoney(), active.getCategory(),
                 active.getActiveTime(), active.getAddress(), active.getAnnex(), active.getName(), active.getPhone(),
                 active.getSocial(),active.getSocialNumber(), active.getIsPublic(), sdf.format(date));
+        return res;
     }
 
     @Override
